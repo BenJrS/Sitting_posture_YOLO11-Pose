@@ -2,11 +2,6 @@
 
 Ứng dụng GUI theo dõi tư thế ngồi, nghiêng/ngã và hướng nhìn (gaze) theo thời gian thực từ 2 camera (hỗ trợ cả webcam và IP camera từ điện thoại).
 
-Phù hợp cho:
-- Demo / báo cáo đề tài HAR – posture/gaze.
-- Thu thập log dữ liệu (CSV) để phân tích / train thêm mô hình.
-- Giám sát tư thế học tập / làm việc.
-
 ---
 
 ## Tính năng chính
