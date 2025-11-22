@@ -1,0 +1,10 @@
+ultralytics>=8.0.0
+yolov5>=7.0.0
+opencv-python
+numpy
+Pillow
+torch
+torchvision
+customtkinter
+packaging
+mediapipe>=0.10.0
