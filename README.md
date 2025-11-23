@@ -6,8 +6,8 @@
 
 ## Tính năng chính
 - 🎥 Hai luồng video song song
-  - CAM 1: Nghiêng/ngã đầu + Gaze.
-  - CAM 2: Tư thế ngồi tổng thể (good/bad/…).
+  - CAM 1: Nghiêng/ngã + Gaze.
+  - CAM 2: Tư thế ngồi tổng thể (good/bad.
 - 🧠 TiltDetector (nghiêng/ngã)
   - Dựa trên Ultralytics YOLO.
   - Trích xuất 7 keypoint: Nose, L/R Eye, L/R Ear, L/R Shoulder.
@@ -21,20 +21,6 @@
   - Dựa trên YOLOv5 (thư viện `yolov5`).
   - Phân loại posture (label theo dataset của bạn).
   - Vẽ bounding box: thường là box xanh cho tư thế tốt, đỏ cho tư thế xấu (tùy cách train/label).
-- 📊 Giao diện CustomTkinter
-  - Sidebar điều khiển:
-    - Chọn model `.pt` cho Tilt và Posture.
-    - Chọn nguồn video: Webcam hoặc IP camera.
-    - Bật/tắt từng nhánh: Tilt, Gaze tracking, Posture.
-    - Nút BẮT ĐẦU / dừng.
-    - Nút GHI LOG CSV.
-  - Panel phải hiển thị:
-    - Label tilt + 7 keypoint.
-    - Label gaze + thông tin mắt.
-    - Label posture + bounding box.
-- 📁 Ghi log CSV tự động:
-  - Lưu vào: `exports/session_YYYYMMDD_HHMMSS/log_pro.csv`
-  - Gồm thời gian, tilt/gaze/posture, keypoint & bounding box.
 
 ---
 
@@ -117,7 +103,9 @@ Nếu cài đặt thành công, cửa sổ GUI sẽ hiện ra với:
 
 - Sidebar:
   - Chọn model `.pt` cho TiltDetector và PostureDetector.
-  - Chọn nguồn Video (Webcam index hoặc IP camera URL).
+  - Chọn nguồn Video (Webcam index hoặc IP camera URL)
+      Với Webcam nhập index 0,1
+      Với IP camera URL nhập http://192.168.x.x:port/video
   - Toggle cho từng nhánh: Tilt, Gaze, Posture.
   - Nút BẮT ĐẦU / Dừng luồng.
   - Nút GHI LOG CSV (bật/tắt ghi tay).
@@ -130,57 +118,4 @@ Nếu cài đặt thành công, cửa sổ GUI sẽ hiện ra với:
 - Panel phải:
   - Hiển thị chi tiết numeric: tọa độ keypoint, EAR, tọa độ đồng tử, label posture + confidence, thời gian frame.
 
----
 
-## Định dạng log CSV (gợi ý)
-File: `exports/session_YYYYMMDD_HHMMSS/log_pro.csv`
-
-Các cột gợi ý:
-- timestamp_utc
-- cam_id
-- tilt_label
-- tilt_confidence
-- keypoint_nose_x, keypoint_nose_y, ...
-- left_eye_x, left_eye_y, right_eye_x, right_eye_y
-- left_shoulder_x, left_shoulder_y, right_shoulder_x, right_shoulder_y
-- gaze_label
-- left_pupil_rel_x, left_pupil_rel_y, right_pupil_rel_x, right_pupil_rel_y
-- ear_left, ear_right, blink_detected (0/1)
-- posture_label
-- posture_confidence
-- bbox_xmin, bbox_ymin, bbox_xmax, bbox_ymax
-- extra_notes
-
-(Cột có thể thay đổi tuỳ config — đảm bảo đủ thông tin để phục hồi frame/annotation khi cần).
-
----
-
-## Models & Dữ liệu
-- Chuẩn bị model `.pt` cho:
-  - TiltDetector (YOLO + custom head / keypoint extractor).
-  - PostureDetector (YOLOv5 trained on dataset tư thế).
-- GazeEstimator sử dụng mô-đun MediaPipe Face Mesh (không cần model `.pt` riêng).
-
----
-
-## Gợi ý tối ưu hoá / Troubleshooting
-- Nếu chậm trên CPU:
-  - Giảm kích thước khung hình (ví dụ scale down capture).
-  - Tắt một số nhánh (ví dụ chỉ bật Tilt hoặc Posture).
-- Trên Windows / macOS Apple Silicon:
-  - Sử dụng phiên bản `torch` tương thích (Apple Silicon cần bản mac build).
-- Nếu không nhận IP camera:
-  - Kiểm tra URL RTSP / HTTP stream từ app IP camera trên điện thoại.
-  - Đảm bảo PC và điện thoại cùng mạng Wi‑Fi, tường lửa cho phép.
-- Nếu không cài được `mediapipe` trên một số hệ:
-  - Thử cài phiên bản `mediapipe` phù hợp hoặc dùng Docker container.
-
----
-
-## Ghi chú
-- Đây là bản mô tả cho một ứng dụng demo/thu thập dữ liệu. Tuỳ nhu cầu, bạn có thể bổ sung:
-  - Lưu video đầu ra kèm overlay.
-  - Chức năng export JSON annotation.
-  - Dashboard thống kê sau mỗi session (số lần cúi đầu, thời gian nhìn ra ngoài, v.v.).
-
----
